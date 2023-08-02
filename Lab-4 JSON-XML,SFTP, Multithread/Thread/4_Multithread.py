@@ -19,7 +19,7 @@ class myThread(Thread):
 
     def process_data(self,threadName,q):
         while not exitFlag:
-            queueLock.acquire()
+            queueLock.acquire()  # Blocking 
             if not workQueue.empty():
                 data = q.get()
                 queueLock.release()
