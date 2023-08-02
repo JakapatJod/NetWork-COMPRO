@@ -1,9 +1,9 @@
 import paramiko
 
-hostname = '192.168.123.25'
-username = 'watcharachai'
-passwd = 'password'
-port = 22
+hostname = '192.168.16.128'
+username = 'jakapat'
+passwd = 'jakapat12'
+port = 22 # ssh
 
 try:
     p = paramiko.Transport((hostname,port))
@@ -12,10 +12,10 @@ try:
     print("[*] Connected to "+ hostname + "via SSH")
     stfp = paramiko.SFTPClient.from_transport(p)
     print("[*] Starting file download")
-    stfp.get("/home/watcharachai/text.txt","/Users/watcharachai/Downloads/d.txt")
+    stfp.get("/home/jakapat/test.txt","/Users/admin/Downloads/d.txt") # get = download ระบุ path เครื่องคอมตัวเองกับ path ใน linux
     print("[*] File download complete")
     print("[*] Starting file upload")
-    stfp.put("/Users/watcharachai/Downloads/d.txt","/home/watcharachai/u.txt")
+    stfp.put("/Users/admin/Downloads/d.txt","/home/jakapat/u.txt") # put = upload
     print("[*] File download complete")
     p.close()
     print("[*] Disconnected from server")
