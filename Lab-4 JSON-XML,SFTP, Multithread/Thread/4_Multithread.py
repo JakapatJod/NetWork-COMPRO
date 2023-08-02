@@ -1,9 +1,7 @@
-from collections.abc import Callable, Iterable, Mapping
 from threading import Thread
 import threading
 import queue
 import time
-from typing import Any
 
 exitFlag = 0
 

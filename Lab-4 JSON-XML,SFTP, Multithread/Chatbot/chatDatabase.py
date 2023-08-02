@@ -11,7 +11,7 @@ class chatRecord():
             return 'No message yet!'
         elif messageID == 0: # get all message for database
             return '\n'.join(self.data)
-        elif messageID != 0: # get chunk of message
+        elif messageID != 0: # get chunk of message รับข้อความจำนวนมาก
             temp = self.data[messageID:]
 
             return '\n'.join(temp)
