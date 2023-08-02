@@ -17,7 +17,7 @@ class myThread(Thread):
     def run(self):  # Overriding run method
         print('Starring ' + self.name)
         # Get lock to synchronize threads
-        threadLock.acquire()
+        threadLock.acquire()           # การทำ blocking ควรมี .acquire() และ .release()
 
         self.printTime(self.name , self.counter,3)
         # Free lock to release next thread
