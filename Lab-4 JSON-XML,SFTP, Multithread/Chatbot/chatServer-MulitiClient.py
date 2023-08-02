@@ -26,11 +26,11 @@ class clientHandler(Thread):
                     print('Client (%s) is offline'% self._address)
                     broadCastingMessage(socket,('Client (%s) is offline'%self._address))
                     socket.close()
-                    CONNECTION_LIST.remove(socket)
+                    CONNECTIONS_LIST.remove(socket)
     def run(self):
         self._client.send(str.encode('Welcome to the chat room'))
         self._name = bytes.decode(self.__annotations__client.recv(BUFSIZE))
-        # Geting all messages from database and send them to client in the first time
+        # Geting all messages from database and send them to client in the first time รับข้อมูลจากฐานข้อมูลแล้วส่งไปยัง client คนแรก
 
         allMessage = self._record.getMessage(0)
         self._client.send(str.encode(allMessage))
