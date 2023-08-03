@@ -2,6 +2,8 @@ from threading import Thread
 import threading
 import time
 
+# การทำงานต้องรอ thread 1 ทำเสร็จก่อนค่อยทำ thread 2 มีสถานะ waiting
+
 class myThread(Thread):
     def __init__(self,threadID,name,counter):
         Thread.__init__(self)
@@ -18,7 +20,7 @@ class myThread(Thread):
         print('Starring ' + self.name)
         # Get lock to synchronize threads
         threadLock.acquire()           # การทำ blocking ควรมี .acquire() และ .release()
-
+    
         self.printTime(self.name , self.counter,3)
         # Free lock to release next thread
         threadLock.release()

@@ -3,7 +3,7 @@ from socket import *
 from chatDatabase import chatRecord
 from threading import Thread
 import threading
-from time import ctime
+from time import ctime,sleep
 
 class clientHandler(Thread):
     def __init__(self,client,record,address):
@@ -49,6 +49,14 @@ class clientHandler(Thread):
                 self.broadCastingMessage(self._client,message)
                 threadLock.release()
 
+def displayChatRecord(record):
+    while True:
+        sleep(10)  # Adjust the interval (in seconds) to update the display
+        print("\n===== Chat Record =====")
+        allMessages = record.getMessage(0)
+        print(allMessages)
+        print("=======================\n")
+
 HOST = 'localhost'
 PORT = 5000
 BUFSIZE = 4096
@@ -67,6 +75,10 @@ server.listen(10)
 CONNECTIONS_LIST.append(server)
 print('Chat server started on port ' + str(PORT))
 
+display_thread = Thread(target=displayChatRecord, args=(record,))
+display_thread.daemon = True
+display_thread.start()
+
 while True:
     print('Waiting for connection...')
     client, address = server.accept()
@@ -78,6 +90,5 @@ while True:
     # Release CONNECTIONS_LIST
     threadLock.release()
     handler  = clientHandler(client,record,address)
-    print(str(record))
 
     handler.start()

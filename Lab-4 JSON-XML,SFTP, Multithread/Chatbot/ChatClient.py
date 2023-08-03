@@ -2,9 +2,9 @@
 from socket import *
 
 HOST = 'localhost'
-PORT = 50000
+PORT = 5000
 BUFSIZE  = 4096
-ADDRESS = {HOST,PORT} # (127.0.0.1 , 50000)
+ADDRESS = (HOST,PORT) # (127.0.0.1 , 50000)
 
 server = socket(AF_INET,SOCK_STREAM)
 server.connect(ADDRESS)
