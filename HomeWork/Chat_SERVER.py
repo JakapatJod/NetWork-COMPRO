@@ -30,7 +30,7 @@ class clientHandler(Thread):
     def run(self):
         self._client.send(str.encode('Welcome to the chat room'))
         self._name = bytes.decode(self._client.recv(BUFSIZE))        
-        # Geting all messages from database and send them to client in the first time รับข้อมูลจากฐานข้อมูลแล้วส่งไปยัง client คนแรก
+        # รับข้อมูลจากฐานข้อมูลแล้วส่งไปยัง client คนแรก
 
         allMessage = self._record.getMessage(0)
         self._client.send(str.encode(allMessage))
@@ -76,7 +76,7 @@ CONNECTIONS_LIST.append(server)
 print('Chat server started on port ' + str(PORT))
 
 display_thread = Thread(target=displayChatRecord, args=(record,))
-display_thread.daemon = True # การทำงาน thread daemon จะเป็นการทำงาน เบื้องหลังพร้อมกับ Main thread
+display_thread.daemon = True # การทำงาน thread daemon จะเป็นการทำงาน เบื้องหลังพร้อมกับ Main thread ถ้าตั้งเป็น False ก็ต้องรอ Main thread ทำงานเสร็จก่อนจึงทำได้
 display_thread.start()
 
 while True:
