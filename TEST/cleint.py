@@ -16,8 +16,11 @@ name = input('Enter your name: ')
 userName = str.encode(name)
 server.send(userName)
 
+exiting = False
+
 def receive_messages():
-    while True:
+    global exiting  
+    while not exiting:  
         receiveMessage = bytes.decode(server.recv(BUFSIZE))
         if not receiveMessage:
             print('Server disconnected')
@@ -28,7 +31,6 @@ receive_thread = Thread(target=receive_messages)
 receive_thread.daemon = True
 receive_thread.start()
 
-
 try:
     while True:
         sendMessage = input('')
@@ -36,11 +38,14 @@ try:
             leave_message = f'{name} left from server!!'
             server.send(str.encode(leave_message))
             print('You have left the server.')
+            exiting = True  
             break
         server.send(str.encode(sendMessage))
 except KeyboardInterrupt:
     print('You have left the server (Ctrl+C)')
     leave_message = f'{name} left from server!!'
     server.send(str.encode(leave_message))
+    exiting = True  
 
+receive_thread.join()  
 server.close()
