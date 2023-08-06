@@ -86,7 +86,6 @@ while True:
 
     threadLock.acquire()
     CONNECTIONS_LIST.append(client)
-    # Release CONNECTIONS_LIST
     threadLock.release()
     handler  = clientHandler(client,record,address)
 
