@@ -26,7 +26,6 @@ def handle_send_message_event(data):
                                                                     data['room'],
                                                                     data['message']))
     socketio.emit('receive_message', data,room=data['room'])
-    print(data['message'])
 
 @socketio.on('join_room')
 def handle_join_room_event(data):
