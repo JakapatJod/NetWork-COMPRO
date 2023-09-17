@@ -111,8 +111,6 @@ class ChatServer:
             client_thread = threading.Thread(target=self.handle_client, args=(client_socket, client_address, username, room))
             client_thread.start()
 
-
-
 if __name__ == "__main__":
     chat_server = ChatServer()
     chat_server.main()

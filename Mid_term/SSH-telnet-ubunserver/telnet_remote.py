@@ -2,7 +2,7 @@ import getpass
 import telnetlib
 
 HOST = "192.168.182.128"
-user = input("Enter you remote account: ")
+user = input("Enter your remote account: ")
 password = getpass.getpass()
 
 tn = telnetlib.Telnet(HOST)
@@ -13,9 +13,8 @@ if password:
     tn.read_until(b'Password: ')
     tn.write(password.encode('ascii') + b"\n")
 
-
-tn.write(b'ls\n')
-tn.write(b'mkdir TEST2\n')
-tn.write(b'exit\n')
-
-print(tn.read_all().decode('ascii'))
+while True:
+    s = input('Enter command: ')
+    tn.write(f'{s}\n'.encode('ascii'))
+    output = tn.read_very_eager()
+    print(output.decode('utf-8', errors='ignore'))

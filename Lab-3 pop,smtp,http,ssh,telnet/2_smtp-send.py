@@ -12,8 +12,8 @@ This is an email message sent as HTML.
 """
 
 try:
-    smtp = smtplib.SMTP("192.168.16.128")
-    smtp.sendmail("jakapat@jakapat.com","jakapat@jakapat.com",message)
+    smtp = smtplib.SMTP("192.168.182.128")
+    smtp.sendmail("jakapat@jakapatgust.com","jakapat@jakapatgust.com",message)
     print("Email sent successfully")
 except Exception as err:
     print(str(err))
