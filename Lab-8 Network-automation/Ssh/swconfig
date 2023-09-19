@@ -1,0 +1,7 @@
+enable
+conf t
+int range g1/0 - 3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport mode nonegotiate
+switchport trunk allowed vlan 1,2
