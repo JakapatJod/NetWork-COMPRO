@@ -108,3 +108,131 @@ def user_is_valid():
         else:
             print('\n* File %s does not exist! Please check and try again!\n' % user_file)
             continue
+
+# Checking command file validity
+def cmd_is_valid():
+    global cmd_file
+
+    while True:
+        print('\n========================================\n')
+        ip_file = input('# Enter command file name and extension: ')
+        print('\n========================================\n')
+
+        # Changing output messages
+        if os.path.isfile(cmd_file) == True:
+            print('\n* Sending command(s) to device(s)....\n')
+            break
+        
+        else:
+            print('\n* File %s does not exits! Please check and try again!\n'%cmd_file)
+            continue
+
+# Change exception message
+try:
+    # Calling IP validity function
+    ip_is_valid()
+
+except KeyboardInterrupt:
+    print('\n\n* Program aborted by user. Exiting...\n')
+    sys.exit()
+
+# Change exception message
+try:
+    # Calling file validity function
+    user_is_valid()
+
+except KeyboardInterrupt:
+    print('\n\n* Program aborted by user. Exiting...\n')
+    sys.exit()
+
+# Change exception message
+try:
+    # Calling command validity function
+    cmd_is_valid()
+
+except KeyboardInterrupt:
+    print('\n\n* Program aborted by user. Exiting...\n')
+    sys.exit()
+
+# Open SSHv2 connection to devices
+def open_ssh_con(ip):
+    try:
+
+        # Define SSH parameters
+        selected_user_file = open(user_file,'r')
+
+        # Starting from the beginning of the file
+        selected_user_file.seek(0)
+
+        # Reading the username from the file
+        username = selected_user_file.readlines()[0].split(',')[0]
+
+        # Starting from the begginning of the file
+        selected_user_file.seek(0)
+
+        # Reading the password from the file
+        password = selected_user_file.readline()[0].split(',')[1].rstrip('\n')
+
+        # Loggin into device
+        session = paramiko.SSHClient()
+
+        # For testing purposes, this allows auto-accepting unknow host keys
+        # Do not use in production! The default would be RejectPolicy
+        session.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+        # Connect to the device using username and password
+        session.connect(ip,username = username,password = password,allow_agent=False,look_for_keys=False)
+
+        # Start an interactive shell session on the router
+        connection = session.invoke_shell()
+
+        # Open user selected file for reading
+        selected_cmd_file = open(cmd_file,'r')
+
+        # Starting from the beginning of the file
+        selected_cmd_file.seek(0)
+
+        # Writing each line in the file to the device
+        for eac_line in selected_cmd_file.readlines():
+            connection.send(eac_line + '\n')
+            time.sleep(2)
+
+        # Closing the user file
+        selected_user_file.close()
+
+        # Closing the command fuke
+        selected_cmd_file.close()
+
+        # Checking command output for IOS syntax errors
+        router_output = connection.recv(65535)
+
+        if re.search(r'% Invalid input detected at',str(router_output,'utf-8')):
+            print('* There was at least one IOS syntax error on device %s'% ip)
+        else:
+            print('\nDONE for device %s'%ip)
+        
+        # Test for reading command output
+        print(str(router_output,'utf-8') + '\n')
+
+        # Closing the connection
+        session.close()
+
+    except paramiko.AuthenticationException:
+        print('* Invalid username or password. \n* Please check the username/password file or the device configuration!')
+        print('* Closing program....')
+
+def create_threads():
+    threads = []
+    for ip in ip_list:
+        ip = ip.rstrip()
+        th = threading.Thread(target= open_ssh_con,args=(ip,)) # args in a tuple with a single element
+        th.start()
+        threads.append(th)
+    
+    for th in threads:
+        th.join()
+
+# Calling threads creation function
+create_threads()
+
+# End of program
