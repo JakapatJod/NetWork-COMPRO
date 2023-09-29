@@ -3,7 +3,7 @@ import time
 
 username = 'cisco'
 password = 'cisco'
-IP = '10.4.15.170'
+IP = '192.168.1.20'
 
 tn = telnetlib.Telnet(IP)
 

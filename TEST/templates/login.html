@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SSH-insert</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static',filename='css/M_login_Regis.css') }}" rel="stylesheet">
+
+</head>
+<body>
+    <div class="box" >
+                <form action="/login" method="POST" autocomplete="off" class="form">
+                    <h2 class="page-header text-primary">Login</h2>
+
+                     {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category,message in messages %}
+                        <div class="alert">{{message}}</div>
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+
+                    <div class="inputBox">
+                        <input type="text" name="ipaddress" class="form-control" required>
+                        <span>IP</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" name="username" class="form-control" required>
+                        <span>Username</span>
+                        <i></i>
+                    </div>
+                    <div class="inputBox">
+                        <input type="password" name="password" id="password" class="form-control" required>
+                        <a><img style="width: 25px;" src="static/img/hidden.png" onclick="pass()" class="pass-icon" id="pass-icon"></a>
+                        <span>Password</span>
+                        <i></i>
+                    </div>
+                    <div class="links">
+                        <input type="submit" value="Login" class="btn btn-success btn-block">
+                    </div>
+                </form>
+    </div>
+</body>
+</html>
+<script>
+    $(document).ready(function(){
+        $(".alert").hide(3000)
+    });
+</script>
+<script src="static/script.js"></script>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VLAN-Config</title>
+</head>
+<body>
+    <h1>SHOW_OUTPUT</h1>
+    <pre>{{ output }}</pre>
+    <h3>Config Ip route</h3>
+
+    <form method="POST" action="/configure_vlan">
+        <label for="vlan_id">Config VLAN ID : </label>
+        <input type="text" name="vlan_id" id="vlan_id">
+        VLAN name : <input type="text" name="vlan_name" id="vlan_name">
+
+        <input type="submit" value="Edit VLAN">
+    </form>
+
+    <h3>Delete VLAN</h3>
+    <form method="POST" action="/delete_vlan"> 
+        <label for="vlan_id_to_delete">VLAN ID to Delete: </label>
+        <input type="text" name="vlan_id_to_delete" id="vlan_id_to_delete">
+        <input type="submit" value="Remove VLAN">
+    </form>
+    <a href="/command">Back to Configuration</a>
+</body>
+</html>

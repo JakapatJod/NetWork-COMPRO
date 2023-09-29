@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IP_routing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <h1>SHOW_OUTPUT</h1>
+    <pre>{{ output }}</pre>
+
+    <h3>Config Ip route</h3>
+
+    <form method="POST" action="/ip_route">
+        <label for="ip_network">Config ip Routing : </label>
+        <input type="text" name="ip_network" id="ip_network">
+        <input type="text" name="subnetmask" id="subnetmask">
+        <input type="text" name="next_hop" id="next_hop">
+
+        <label for="add_routing">Add IP Routing : </label>
+        <input type="checkbox" name="add_routing" id="add_routing" value="yes">
+
+        <input type="submit" value="Edit IP">
+    </form>
+
+    <h3>Remove Ip route</h3>
+
+    <form method="POST" action="/removeiproute">
+        <label for="ip_network">Remove ip route : </label>
+        <input type="text" name="ip_network" id="ip_network">
+        <input type="text" name="subnetmask" id="subnetmask">
+        <input type="text" name="next_hop" id="next_hop">
+
+        <label for="add_routing">Remove IP Routing : </label>
+        <input type="checkbox" name="add_routing" id="add_routing" value="yes">
+        <input type="submit" value="Edit IP">
+    </form>
+
+    <a href="/command">Back to Configuration</a>
+</body>
+</html>

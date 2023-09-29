@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>COMMAND</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <h1>Global Config</h1>
+    <h3>Change Hostname</h3>
+    <form method="POST" action="/device_name">
+        <label for="device-name">Device name: </label>
+        <input type="text" id="device-name" name="device-name"><br><br>
+        <input type="submit" value="submit">
+
+    </form>
+
+    <h3>Show Running Config</h3>
+    <form method="POST" action="/showrun">
+        <input type="submit" value="Show Running config">
+    </form>
+    <h3>Show ip Interface</h3>
+        <form methods='POST' action="/showipinterface">
+            <input type="submit" value="Show ip Interface">
+    </form>
+
+    <h3>Show Vlan</h3>
+    <form method="POST" action="/showvlan">
+        <input type="submit" value="Show VLAN">
+    </form>
+    <h3>Configure VLAN</h1>
+    <form method="POST" action="{{ url_for('configure_vlan') }}">
+        <input type="submit" value="Enter to Configuration VLAN">
+    </form>   
+
+    <h3>Configuration ip Interface</h1>
+    <form method="POST" action="{{ url_for('interface_port') }}">
+        <input type="submit" value="Enter to Configuration Interface">
+    </form>   
+
+    <h3>Configuration ip route</h1>
+    <form method="POST" action="{{ url_for('ip_route') }}">
+        <input type="submit" value="Enter to Configuration ip route">
+    </form>   
+
+    <h3>Upload file command</h1>
+    <form method="POST" action="{{ url_for('upload_file') }}">
+        <input type="submit" value="Enter to Upload file">
+    </form>  
+</body>
+</html>
