@@ -7,9 +7,9 @@
 
 </head>
 <body>
-    <h1>SHOW_INTERFACE</h1>
+    <h1>SHOW INTERFACE</h1>
     <pre>{{ output }}</pre>
-    <h1>Interface Information</h1>
+    <h1>Insert ip address</h1>
     <ul>
         {% for interface in interface_list %}
         <li>
@@ -24,6 +24,22 @@
         </li>
         {% endfor %}
     </ul>
+    <h1>Remove ip address</h1>
+    <ul>
+        {% for interface in interface_list %}
+        <li>
+            {{ interface }}
+            <form method="POST" action="/remove_port">
+                <input type="hidden" name="interface" value="{{ interface }}">
+                <label for="remove_ip">IP Address :</label>
+                <input type="text" name="remove_ip" id="remove_ip">
+                Subnet mask<input type="text" name="remove_subnetmask" id="remove_subnetmask">
+                <input type="submit" value="SUBMIT">
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
 
     <a href="/command">Back to Configuration</a>
 </body>

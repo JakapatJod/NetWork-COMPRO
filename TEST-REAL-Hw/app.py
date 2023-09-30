@@ -4,6 +4,7 @@ import re # import regex
 
 app = Flask(__name__)
 app.secret_key = 'SeCreT_Key'
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 @app.route('/')
 def index():
@@ -250,8 +251,8 @@ def interface_port():
             config_commands = [
                 f'interface {interface_name}',
                 'no sw',
-                f'ip address {new_ip} {new_subnet}',
-                'exit'
+                f'ip address {new_ip} {new_subnet}','no shutdown',
+                'end','show ip interface brief'
             ]
             output = net_connect.send_config_set(config_commands)
         net_connect.disconnect()
@@ -261,7 +262,54 @@ def interface_port():
     except Exception as e:
         return f"error: {str(e)}"
     
-# =====================================================
+# ===================================================== remove ip address
+
+@app.route('/remove_port', methods=['GET', 'POST'])
+def remove_port():
+    device = session.get('device')
+
+    if not device:
+        return "no device"
+
+
+    try:
+        net_connect = ConnectHandler(**device)
+        net_connect.enable()
+
+        config_commands = ['exit', 'show ip interface brief']
+        output = net_connect.send_config_set(config_commands)
+
+        lines = output.splitlines()
+        interface_list = []
+
+        for line in lines: 
+            match = re.match(r'^([A-Za-z]+\d+/\d+/\d+|[A-Za-z]+\d+/\d+|[A-Za-z]+\d+)', line) # นำ regex มาเพื่อคัดหาคำ ว่า Interface จากทั้งหมดของ show ip interface brief 
+            if match:
+                interface = match.group(1)
+                if not re.match(r'^(SW|Router|R|Switch)', interface, re.IGNORECASE):
+                    interface_list.append(interface)
+
+        print(interface_list)
+        interface_name = request.form.get('interface')
+        re_ip = request.form.get('remove_ip')
+        re_subnet = request.form.get('remove_subnetmask')
+
+
+        print(f'Interface Name: {interface_name}')
+
+        if interface_name and re_ip:   
+            config_commands = [
+                f'interface {interface_name}',
+                f'no ip address {re_ip} {re_subnet}','shutdown','sw',
+                'end','show ip interface brief'
+            ]
+            output = net_connect.send_config_set(config_commands)
+        net_connect.disconnect()
+
+        return render_template('interface_port.html', output=output, interface_list=interface_list)
+
+    except Exception as e:
+        return f"error: {str(e)}"
 
 
 # ===================================================== การทำ ip route กับ ลบ ip route
@@ -286,17 +334,14 @@ def ip_route():
         if add_routing == 'yes': # ถ้าติ๊กถูกจะเพิ่มคำ ip routing
             config_commands.insert(1, 'ip routing')
 
-        remove_commands = [f'no ip route {ip_network} {subnetmask} {next_hop}','exit', 'show ip route']
-        if add_routing == 'yes': # ถ้าติ๊กถูกจะทำการลบคำ ip routing
-            config_commands.insert(1, 'no ip routing')
+
 
 
         output = net_connect.send_config_set(config_commands)
-        output2 = net_connect.send_config_set(remove_commands)
 
         net_connect.disconnect()
 
-        return render_template('/ip_routing.html', output=output , output2=output2)
+        return render_template('ip_routing.html', output=output )
 
     except Exception as e:
         return f"error: {str(e)}"
@@ -329,41 +374,11 @@ def remove_route():
 
         net_connect.disconnect()
 
-        return render_template('/ip_routing.html', output=output )
+        return render_template('ip_routing.html', output=output )
 
     except Exception as e:
         return f"error: {str(e)}"
     
-# ===================================================== Upload file run command
-@app.route('/upload_file', methods=['POST']) 
-def upload_file():
-    device = session.get('device')
-    if not device:
-        return "No device"
-    
-    try:
-        file = request.files['file']
-        
-        commands = file.read().decode('utf-8').splitlines()
-        
-        output = []  
-        
-        for i in device:
-            net_connect = ConnectHandler(**device)
-            
-           
-            for command in commands:
-                cmd_output = net_connect.send_command(command)
-                output.append(cmd_output)
-            
-            net_connect.disconnect()
-        
-        return render_template('upload_file.html', output=output)  
-
-    except Exception as err:
-        print(f"Error: {str(err)}")
-        return f"Error: {str(err)}"
-# =====================================================
 
 
 if __name__ == '__main__':
