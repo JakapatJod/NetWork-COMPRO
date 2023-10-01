@@ -1,4 +1,4 @@
-from flask import Flask, request, session, redirect, url_for, render_template, flash , request
+from flask import Flask, request, session, redirect, url_for, render_template, flash , request , jsonify
 from netmiko import ConnectHandler
 import re # import regex
 
@@ -310,6 +310,8 @@ def remove_port():
 
     except Exception as e:
         return f"error: {str(e)}"
+# ===================================================== 
+
 
 
 # ===================================================== การทำ ip route กับ ลบ ip route
@@ -346,6 +348,7 @@ def ip_route():
     except Exception as e:
         return f"error: {str(e)}"
     
+    
 # ===================================================== ตำสั่งลบ ip route
 
 @app.route('/removeiproute', methods=['POST'])
@@ -378,7 +381,34 @@ def remove_route():
 
     except Exception as e:
         return f"error: {str(e)}"
-    
+# ===================================================== 
+
+
+# ===================================================== การใส่ command
+
+@app.route('/send_command', methods=['POST'])
+def send_command():
+    device = session.get('device')
+    net_connect = None
+    try:
+        if not net_connect or not net_connect.is_alive():  
+            try:
+                net_connect = ConnectHandler(**device)
+                net_connect.enable()
+            except Exception as e:
+                return jsonify({'output': f'Error connecting: {str(e)}'})
+
+        cmd = request.form['command']
+        if cmd.strip().lower() == "configure terminal":
+            output = net_connect.config_mode()
+        else:
+            output = net_connect.send_command_timing(cmd)
+
+        return jsonify({'output': output})
+    except Exception as e:
+        return f"error: {str(e)}"
+# ===================================================== 
+
 
 
 if __name__ == '__main__':
