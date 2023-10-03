@@ -9,16 +9,15 @@
 </head>
 <body>
     <div class="box" >
-                <form action="/login" method="POST" autocomplete="off" class="form">
-                    <h2 class="page-header text-primary">Login</h2>
-
-                     {% with messages = get_flashed_messages(with_categories=true) %}
+        <form action="/login" method="POST" autocomplete="off" class="form">
+            <h2 class="page-header text-primary">Login</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category,message in messages %}
                         <div class="alert">{{message}}</div>
                     {% endfor %}
                 {% endif %}
-                {% endwith %}
+            {% endwith %}
 
 
                     <div class="inputBox">
@@ -49,4 +48,5 @@
         $(".alert").hide(3000)
     });
 </script>
+
 <script src="static/script.js"></script>

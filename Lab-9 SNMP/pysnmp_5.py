@@ -1,7 +1,7 @@
 from pysnmp.hlapi import *
 
 communityName = 'public'
-ipAddress = '192.168.1.21'
+ipAddress = '192.168.1.20'
 OID = '1.3.6.1.2.1.1.1.0'
 
 errorIndication, errorStatus , errorIndex, varBinds = next(

@@ -236,7 +236,7 @@ def interface_port():
             match = re.match(r'^([A-Za-z]+\d+/\d+/\d+|[A-Za-z]+\d+/\d+|[A-Za-z]+\d+)', line) # นำ regex มาเพื่อคัดหาคำ ว่า Interface จากทั้งหมดของ show ip interface brief 
             if match:
                 interface = match.group(1)
-                if not re.match(r'^(SW|Router|R|Switch)', interface, re.IGNORECASE):
+                if not re.match(r'^(SW|Router|R|Switch)', interface, re.IGNORECASE): # มันจะทำการลบคำ SW# Router# R# Switch# ออกไปเอาแค่ พวกชื่อ port ต่างๆ
                     interface_list.append(interface)
 
         print(interface_list)
@@ -386,27 +386,27 @@ def remove_route():
 
 # ===================================================== การใส่ command
 
-@app.route('/send_command', methods=['POST'])
-def send_command():
-    device = session.get('device')
-    net_connect = None
-    try:
-        if not net_connect or not net_connect.is_alive():  
-            try:
-                net_connect = ConnectHandler(**device)
-                net_connect.enable()
-            except Exception as e:
-                return jsonify({'output': f'Error connecting: {str(e)}'})
+# @app.route('/send_command', methods=['POST'])
+# def send_command():
+#     device = session.get('device')
+#     net_connect = None
+#     try:
+#         if not net_connect or not net_connect.is_alive():  
+#             try:
+#                 net_connect = ConnectHandler(**device)
+#                 net_connect.enable()
+#             except Exception as e:
+#                 return jsonify({'output': f'Error connecting: {str(e)}'})
 
-        cmd = request.form['command']
-        if cmd.strip().lower() == "configure terminal":
-            output = net_connect.config_mode()
-        else:
-            output = net_connect.send_command_timing(cmd)
+#         cmd = request.form['command']
+#         if cmd.strip().lower() == "configure terminal":
+#             output = net_connect.config_mode()
+#         else:
+#             output = net_connect.send_command_timing(cmd)
 
-        return jsonify({'output': output})
-    except Exception as e:
-        return f"error: {str(e)}"
+#         return jsonify({'output': output})
+#     except Exception as e:
+#         return f"error: {str(e)}"
 # ===================================================== 
 
 

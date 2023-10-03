@@ -8,7 +8,7 @@ system_uptime = '1.3.6.1.2.1.1.3.0'
 
 errorIndication, errorStatus , errorIndex, varBinds = cmdgen.getCmd(
     cmdgen.CommunityData('public'),
-    cmdgen.UdpTransportTargent(('192.168.1.21',161)),
+    cmdgen.UdpTransportTarget(('192.168.1.20',161)),
     system_name,
     system_uptime
 )

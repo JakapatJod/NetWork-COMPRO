@@ -15,16 +15,14 @@ try:
     while True:
         try:
             cmd = input("$>")
-            if cmd == "exit":
+            if cmd == "leave":
                 break
 
-            # Send the command and set the expected prompt
             if cmd.strip().lower() == "configure terminal":
                 output = net_connect.config_mode()
             else:
                 output = net_connect.send_command_timing(cmd)
 
-            # Print the output
             print(output)
         except KeyboardInterrupt:
             break
@@ -36,7 +34,6 @@ except Exception as err:
 
 finally:
     try:
-        # Exit configuration mode if needed before disconnecting
         if net_connect.check_config_mode():
             net_connect.exit_config_mode()
 
