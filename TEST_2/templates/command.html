@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Command Input</title>
+</head>
+<body>
+    <h2>Command Output:</h2>
+    <pre>{{ output }}</pre> 
+    <h3>Enter Command</h3>
+    <form method="POST" action="/execute">
+        <label for="command">Command:</label>
+        <input type="text" id="command" name="command" required>
+        <button type="submit">Execute</button>
+    </form>
+
+</body>
+</html>

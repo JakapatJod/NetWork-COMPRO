@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 device = {
     'device_type': 'cisco_ios',
-    'ip': '192.168.1.21',
+    'ip': '192.168.1.30',
     'username': 'cisco',
     'password': 'cisco',
     'port': 22,
