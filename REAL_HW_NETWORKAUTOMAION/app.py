@@ -59,7 +59,7 @@ def show_run():
         net_connect = ConnectHandler(**device)
         net_connect.enable()
 
-        config_commands = ['exit', 'show run']
+        config_commands = ['exit', 'show running-config']
         output = net_connect.send_config_set(config_commands)
 
         net_connect.disconnect()
@@ -69,6 +69,7 @@ def show_run():
     except Exception as e:
         return f"error: {str(e)}"
 # =====================================================
+
 
 # ===================================================== หน้าโชว์ show ip interface brief
 @app.route('/showipinterface', methods=['GET', 'POST'])
@@ -86,7 +87,7 @@ def show_ip_interface():
         output = net_connect.send_config_set(config_commands)
 
         net_connect.disconnect()
-
+        
         return render_template('show_result.html', output=output)
 
     except Exception as e:
