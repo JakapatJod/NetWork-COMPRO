@@ -48,7 +48,7 @@ def command():
 
 
 # ===================================================== หน้าโชว์ running config 
-@app.route('/showrun', methods=['POST'])
+@app.route('/showrun', methods=["GET",'POST'])
 def show_run():
     device = session.get('device')
 
@@ -124,7 +124,7 @@ def device_name():
 
 
 # ===================================================== show VLAN
-@app.route('/showvlan', methods=['POST'])
+@app.route('/showvlan', methods=['GET', 'POST'])
 def show_vlan():
     device = session.get('device')
 
@@ -150,7 +150,7 @@ def show_vlan():
 
 
 # ===================================================== config vlan
-@app.route('/configure_vlan', methods=['POST'])
+@app.route('/configure_vlan', methods=['GET', 'POST'])
 def configure_vlan():
     device = session.get('device')
     if not device:
@@ -182,7 +182,7 @@ def configure_vlan():
 
 
 # ===================================================== หน้าใช้ คำสั่ง no VLAN
-@app.route('/delete_vlan', methods=['POST'])
+@app.route('/delete_vlan', methods=['GET','POST'])
 def delete_vlan():
 
     device = session.get('device')
@@ -272,7 +272,7 @@ def interface_port():
     
 # ===================================================== remove ip address
 
-@app.route('/remove_port', methods=['GET', 'POST'])
+@app.route('/remove_port', methods=['POST'])
 def remove_port():
     device = session.get('device')
 
@@ -329,7 +329,7 @@ def remove_port():
 
 
 # ===================================================== การทำ ip route กับ ลบ ip route
-@app.route('/ip_route', methods=['POST'])
+@app.route('/ip_route', methods=['GET','POST'])
 def ip_route():
     device = session.get('device')
 
@@ -365,7 +365,7 @@ def ip_route():
     
 # ===================================================== ตำสั่งลบ ip route
 
-@app.route('/removeiproute', methods=['POST'])
+@app.route('/removeiproute', methods=['GET','POST'])
 def remove_route():
     device = session.get('device')
 
@@ -531,39 +531,27 @@ def re_sw():
     except Exception as e:
         return f"เกิดข้อผิดพลาด: {str(e)}"
 
-if __name__ == '__main__':
-    app.run(debug=True)
 # ===================================================== 
 
 
+@app.route('/command-page')
+def command_page():
+    return render_template('command-page.html')
 
-# ===================================================== การใส่ command
-
-
-# @app.route('/send_command', methods=['POST'])
-# def send_command():
-#     device = session.get('device')
-#     net_connect = ConnectHandler(**device)
-
-#     if not net_connect or not net_connect.is_alive():  
-#         try:
-#             net_connect = ConnectHandler(**device)
-#             net_connect.enable()
-#         except Exception as e:
-#             return jsonify({'output': f'Error connecting: {str(e)}'})
-
-#     cmd = request.form['command']
-#     if cmd.strip().lower() == "configure terminal":
-#         output = net_connect.config_mode()
-#     else:
-#         output = net_connect.send_command_timing(cmd)
-
-#     return render_template('send_command.html', output=output )
-    
- 
-
-# ===================================================== 
-
+@app.route('/command-run', methods=['POST'])
+def execute_command():
+    device = session.get('device')
+    net_connect = ConnectHandler(**device)
+    net_connect.enable()
+    try:
+        cmd = request.form['command']
+        if cmd.strip().lower() == "configure terminal":
+            output = net_connect.config_mode()
+        else:
+            output = net_connect.send_command_timing(cmd)
+        return output
+    except Exception as err:
+        return f"Error: {str(err)}"
 
 
 if __name__ == '__main__':

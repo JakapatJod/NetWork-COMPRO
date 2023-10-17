@@ -1,26 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Interface Configuration</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="static/css/home.css">
+    <script src="https://kit.fontawesome.com/317e5df4ed.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <style>
-        pre {
-            background-color: #f2f2f2;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-family: 'Kanit', sans-serif;
-            font-weight: 300;
-        }
 
-        a {
-            text-decoration: none;
-            color: #007bff;
-        }
-    </style>
-    <h1>SHOW INTERFACE</h1>
+        <!-- Side Navbar tag -->
+        <nav>
+            <ul>
+                <li>
+                    <a href="#" class="logo">
+                        <img src="static/img/Logo-C.jpg" alt="">
+                        <span class="nav-item"></span>
+                    </a>
+                </li>
+    
+    
+                <li><a href="/command">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-item">Home</span>
+                </a></li>
+    
+    
+                <li><a methods='POST' href="/showrun">
+                    <i class="fas fa-solid fa-file-arrow-up"></i>
+                    <span class="nav-item">Run Config</span>
+                </a></li>
+    
+    
+                <li><a methods='POST' href="/showipinterface">
+                    <i class="fas fa-solid fa-arrow-up-9-1"></i>
+                    <span class="nav-item">Ip Interface</span>
+                </a></li>
+    
+    
+                <li><a methods='POST' href="/showvlan">
+                    <i class="fas fa-regular fa-file-lines"></i>
+                    <span class="nav-item">Show Vlan</span>
+                </a></li>
+                
+            
+    
+    
+                <li><a methods='POST' href="/configure_vlan">
+                    <i class="fas fa-solid fa-gears"></i>
+                    <span class="nav-item">Config Vlan</span>
+                </a></li>
+    
+    
+                <li><a methods='POST' href="/interface_port">
+                    <i class="fas fa-solid fa-screwdriver-wrench"></i>
+                    <span class="nav-item">Config Interface</span>
+                </a></li>
+    
+    
+                <li><a methods='POST' href="/ip_route">
+                    <i class="fas fa-solid fa-keyboard"></i>
+                    <span class="nav-item">Config Routing</span>
+                </a></li>
+    
+    
+                <li><a methods='POST' href="/configure_interface">
+                    <i class="fas fa-solid fa-gear"></i>
+                    <span class="nav-item">Config Switch Port</span>
+                </a></li>
+    
+                <!-- Logout Function -->
+    
+                <div class="logout">
+                    <li><a href="/login">
+                        <i class="fas fa-solid fa-right-from-bracket"></i>
+                        <span class="nav-item">logout</span>
+                    </a></li>
+                </div>
+            </ul>
+        </nav>
+        
+    <h1>Show Inter face CONFIG</h1>
     <pre>{{ output }}</pre>
+    
+
     <h1>Interface Configuration</h1>
     <form id="configForm" method="post" action="/configure_interface">
         <div>
