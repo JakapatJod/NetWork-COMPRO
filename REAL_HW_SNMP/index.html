@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Trap</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            color: #333;
+        }
+
+        #interfaceList {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: white;
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        li:hover {
+            background-color: #e0e0e0; /* สีพื้นหลังเมื่อ Hover */
+            color: #333; /* สีตัวอักษรเมื่อ Hover */
+            transform: translateY(-5px); /* นูนขึ้น 5 พิกเซล */
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease; /* เพิ่มเอฟเฟ็กต์การเคลื่อนไหว, เปลี่ยนสีพื้นหลังและสีตัวอักษร 0.3 วินาที */
+}
+
+        .info-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Network Trap</h2>
+    <ul id="interfaceList"></ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('interfaceInfo', (interfaceInfoList) => {
+            const interfaceList = document.getElementById('interfaceList');
+
+            // Clear existing content
+            interfaceList.innerHTML = '';
+
+            interfaceInfoList.forEach((info) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+          <h3>Interface ${info.index}</h3>
+          <p>
+            <span class="info-label">Status:</span> ${info.status},<br>
+            <span class="info-label">Data Input:</span> ${info.dataInput},<br>
+            <span class="info-label">Data Output:</span> ${info.dataOutput},<br>
+            <span class="info-label">Interface Info:</span> ${info.interfaceInfo}
+          </p>`;
+                interfaceList.appendChild(listItem);
+            });
+        });
+    </script>
+</body>
+
+</html>
