@@ -1,7 +1,7 @@
 const snmp = require('snmp-native');
 
 const ciscoContactInfoOid = '1.3.6.1.4.1.9.2.1.61';
-const target = '192.168.1.21';
+const target = '192.168.1.100';
 const community = 'public';
 
 const session = new snmp.Session({ host: target, community });
