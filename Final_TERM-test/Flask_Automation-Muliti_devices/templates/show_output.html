@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Output</title>
+</head>
+<body>
+    <h1>Output</h1>
+    {% for OUTPUTS in results %}
+    <div>
+        <pre>{{ OUTPUTS }}</pre>
+    </div>
+
+    {% endfor %}
+    <a href="/">Back to Index</a>
+</body>
+</html>

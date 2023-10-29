@@ -238,8 +238,8 @@ def interface_port():
                 interface = match.group(1)
                 if not re.match(r'^(SW|Router|R|Switch)', interface, re.IGNORECASE):
                     interface_list.append(interface)
-        # print(interface_list)
-        print(interface)
+        print(interface_list)
+        # print(interface)
 
         interface_name = request.form.get('interface')
         new_ip = request.form.get('new_ip')
@@ -350,9 +350,6 @@ def ip_route():
         if add_routing == 'yes': # ถ้าติ๊กถูกจะเพิ่มคำ ip routing
             config_commands.insert(1, 'ip routing')
 
-
-
-
         output = net_connect.send_config_set(config_commands)
 
         net_connect.disconnect()
@@ -426,8 +423,6 @@ def configure_interface():
         mode = request.form.get('mode')
         vlan_id = request.form.get('vlan_id')
         switchport = request.form.get('switchport')
-
-        # trunk_encapsulation  = request.form.get('trunk_encapsulation')
 
         access_vlan = request.form.get('access_vlan')
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Config VLAN</title>
+</head>
+<body>
+    <h1>Output</h1>
+    {% for OUTPUTS in results %}
+    <div>
+        <pre>{{ OUTPUTS }}</pre>
+    </div>
+
+    {% endfor %}
+
+    <h3>Config VLAN</h3>
+    <form method="POST" action="/config_vlan">
+        <label for="vlan_id">Config VLAN ID : </label>
+        <input type="text" name="vlan_id" id="vlan_id">
+        <label for="vlan_id">VLAN name :</label>
+        <input type="text" name="vlan_name" id="vlan_name">
+    
+        <input type="submit" value="Edit Vlan"class='button_mg'>
+    </form>
+
+</body>
+</html>

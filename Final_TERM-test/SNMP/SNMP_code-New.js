@@ -1,5 +1,5 @@
 const express = require('express');
-const { Session } = require('snmp-native');
+const { Session } = require('snmp-native');     // http://localhost:2000
 
 const app = express();
 const port = 2000;

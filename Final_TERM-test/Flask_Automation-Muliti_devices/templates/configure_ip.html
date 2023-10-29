@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configure Html</title>
+</head>
+<body>
+    <h1>Output</h1>
+    {% for OUTPUTS in results %}
+    <div>
+        <pre>{{ OUTPUTS }}</pre>
+    </div>
+
+    {% endfor %}
+
+    <h2>Configure IP Addresses</h1>
+
+    {% for device in all_devices %}
+    <h3>{{ device['ip'] }}</h3>
+    <ul>
+        {% for interface in interface_lists[device['ip']] %}
+        <li>
+            {{ interface }}
+            <form method="POST" action="/configure_ip">
+                <input type="hidden" name="device_ip" value="{{ device['ip'] }}">
+                <input type="hidden" name="interface_" value="{{ interface }}">
+                <label for="new_ip_{{ device['ip'] }}">IP Address :</label>
+                <input type="text" name="new_ip_{{ device['ip'] }}" id="new_ip">
+                Subnet mask : <input type="text" name="new_subnetmask_{{ device['ip'] }}" id="new_subnetmask">
+                <label for="noswitchport_{{ device['ip'] }}">Add No Switchport : </label>
+                <input type="checkbox" name="noswitchport_{{ device['ip'] }}" id="noswitchport" value="yes">
+                <input type="submit" value="SUBMIT" class="button_mg">
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+    <a href="/">Back to Index</a>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONFIG IP</title>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>SHOW INTERFACE</h1>
+        <pre>{{ output }}</pre>
+    </div>
+    
+    
+
+    <div class="wrapper1">
+        <h3>Insert ip address</h3>
+        <ul>
+            {% for interface in interface_list %}
+            <li>
+                {{ interface }}
+                <form method="POST" action="/config_ip">
+    
+                    <input type="hidden" name="interface" value="{{ interface }}">
+                    <label for="new_ip">IP Address :</label>
+                    <input type="text" name="new_ip" id="new_ip">
+                    Subnet mask : <input type="text" name="new_subnetmask" id="new_subnetmask">
+    
+                    <label for="noswitchport">Add No Switchport : </label>
+                    <input type="checkbox" name="noswitchport" id="noswitchport" value="yes">
+    
+                    <input type="submit" value="SUBMIT" class="button_mg">
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>

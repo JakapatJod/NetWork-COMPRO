@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Config Mode</title>
+</head>
+<body>
+
+    <h1>Output</h1>
+    {% for OUTPUTS in results %}
+    <div>
+        <pre>{{ OUTPUTS }}</pre>
+    </div>
+    {% endfor %}
+            <h1>Interface Configuration</h1>
+            <form id="configForm" method='POST' action="/configure_mode">
+                <div>
+                    {% for device in all_devices %}
+                    <h3>{{ device['ip'] }}</h3>
+                    <label for="interface_">Interface:</label>
+                    <label>Interface:</label>
+                    {% for interface in interface_lists[device['ip']] %}
+                    <input type="radio" name="interface_" value="{{ interface }}" id="{{ interface }}">
+                    <label for="{{ interface }}">{{ interface }}</label>
+                    {% endfor %}
+
+                    <label>Add Switchport (Switch Layer 3):</label>
+                    <input type="checkbox" name="switchport" id="switchport" value="yes">
+                    <label for="switchport">Yes</label>
+                </div>
+
+
+                <div>
+                    <input type="checkbox" name="switchport" id="switchport" value="yes">
+                    <label for="switchport">Add Switchport (Switch Layer 3) : </label>
+
+                    <label for="mode">Mode:</label>
+                    <select name="mode" id="modeSelect">
+                        <option value="trunk">Trunk</option>
+                        <option value="access">Access</option>
+                    </select>
+                    <label for="vlan_id">Access VLAN ID:</label>
+                    <input type="text" name="vlan_id" id="vlanId" />
+
+                    <label for="access_vlan">Allow vlan : </label>
+                    <input type="text" name="access_vlan" id="access_vlan" />
+
+                    <input type="submit" value="Configure" />
+                </div>
+                {% endfor %}
+            </form>
+</body>
+</html>
